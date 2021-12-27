@@ -1,4 +1,4 @@
-baseURL = 'http://mehmetsat.github.io/'
+baseURL = 'https://mehmetsat.github.io/'
 languageCode = 'en-us'
 title = 'Mehmet Sat | Personal Blog'
 theme = 'paper'
