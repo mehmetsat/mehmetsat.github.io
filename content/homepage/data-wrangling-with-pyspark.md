@@ -4,11 +4,12 @@ title: Data Wrangling with PySpark
 date: 2021-08-17
 description: Data Wrangling with PySpark
 ---
+
+It becomes very hard to work with pandas when the data is huge. Instead as a strong alternative PySpark comes along. In this tutorial I will introduce the PySpark and mirror our pandas abilities to PySpark. This post assumes the reader has familiarity with the pandas library.
+
 <figure>
   <img src="/data-wrangling-pyspark/image1.png" alt="Trulli" style="width:100%; align:center">
 </figure>
-
-It becomes very hard to work with pandas when the data is huge. Instead as a strong alternative PySpark comes along. In this tutorial I will introduce the PySpark and mirror our pandas abilities to PySpark. This post assumes the reader has familiarity with the pandas library.
 
 ## Introduction to Spark
 
