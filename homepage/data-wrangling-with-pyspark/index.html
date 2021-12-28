@@ -23,7 +23,7 @@ Introduction to Spark The first question is what is Spark. Apache Spark is fast 
 <meta itemprop=name content="Data Wrangling with PySpark">
 <meta itemprop=description content="Data Wrangling with PySpark"><meta itemprop=datePublished content="2021-08-17T00:00:00+00:00">
 <meta itemprop=dateModified content="2021-08-17T00:00:00+00:00">
-<meta itemprop=wordCount content="910">
+<meta itemprop=wordCount content="898">
 <meta itemprop=keywords content>
 <meta name=twitter:card content="summary">
 <meta name=twitter:title content="Data Wrangling with PySpark">
@@ -48,7 +48,10 @@ Introduction to Spark The first question is what is Spark. Apache Spark is fast 
 </p>
 <h1>Data Wrangling with PySpark</h1>
 </header>
-<section class=post-content><p>It becomes very hard to work with pandas when the data is huge. Instead as a strong alternative PySpark comes along. In this tutorial I will introduce the PySpark and mirror our pandas abilities to PySpark. This post assumes the reader has familiarity with the pandas library.</p>
+<section class=post-content><figure>
+<img src=/data-wrangling-pyspark/image1.png alt=Trulli style=width:100%;align:center>
+</figure>
+<p>It becomes very hard to work with pandas when the data is huge. Instead as a strong alternative PySpark comes along. In this tutorial I will introduce the PySpark and mirror our pandas abilities to PySpark. This post assumes the reader has familiarity with the pandas library.</p>
 <h2 id=introduction-to-spark>Introduction to Spark</h2>
 <p>The first question is what is Spark. Apache Spark is fast and general engine for large-scale data processing. It distributes computations among the CPU cores to do parallel processing. It has two abstractions:</p>
 <ul>
@@ -101,7 +104,9 @@ from Anaconda Navigator or from a terminal you can create a virtual environment.
 </li>
 </ul>
 <p>you should see an output like this:</p>
-<p>img</p>
+<figure>
+<img src=/data-wrangling-pyspark/image2.png alt=Trulli style=width:100%;align:center>
+</figure>
 <ul>
 <li>
 <p>You can start coding at Spark Shell but we will use jupyter notebook instead:
@@ -124,7 +129,9 @@ sc</p>
 </ul>
 <p>SparkContext is a package for starting a spark session. We are creating a spark object by calling <em>SparkContext()</em>
 The output will be like this:</p>
-<p>img</p>
+<figure>
+<img src=/data-wrangling-pyspark/image3.png alt=Trulli style=width:100%;align:center>
+</figure>
 <p>You can click to Spark UI to see the spark interface and jobs that you run.</p>
 <p>Let’s create a RDD and track the job at the Spark UI. To create RDD :</p>
 <pre><code>rdd = sc.parallelize(range(1000000000))
@@ -132,11 +139,17 @@ The output will be like this:</p>
 <p>We create 1 billion range RDD. RDD is an immutable distributed collection of elements of your data. We create a count job for the RDD :</p>
 <pre><code>rdd.count()
 </code></pre>
-<p>img</p>
+<figure>
+<img src=/data-wrangling-pyspark/image4.png alt=Trulli style=width:100%;align:center>
+</figure>
 <p>Track the details of the job at Spark UI:</p>
-<p>img</p>
+<figure>
+<img src=/data-wrangling-pyspark/image5.png alt=Trulli style=width:100%;align:center>
+</figure>
 <p>As it can be seen above our job is distributed among 12 different cores of our CPU. It lasts 8 secs to be succeeded. We can also see the tasks in detail for every core:</p>
-<p>img</p>
+<figure>
+<img src=/data-wrangling-pyspark/image6.png alt=Trulli style=width:100%;align:center>
+</figure>
 <p>Our set up is done. Now we can look at data wrangling with pyspark.</p>
 <h2 id=data-wrangling-with-pyspark-for-who-knows-pandas>Data Wrangling with Pyspark for who knows Pandas</h2>
 <p>First, we should initialize our SparkContext :</p>
@@ -159,7 +172,9 @@ df
 df.show()
 </code></pre>
 <p>But the output will be quite ugly compared to the pandas :</p>
-<p>img</p>
+<figure>
+<img src=/data-wrangling-pyspark/image7.png alt=Trulli style=width:100%;align:center>
+</figure>
 <p>By default first 20 rows are displayed. To display n rows df.show(n) can be used.</p>
 <p>To drop a column:</p>
 <pre><code>#pandas 
@@ -167,13 +182,17 @@ df.drop('col_name')
 #pyspark
 df2.drop('rating').show()
 </code></pre>
-<p>img</p>
+<figure>
+<img src=/data-wrangling-pyspark/image8.png alt=Trulli style=width:100%;align:center>
+</figure>
 <p>Grouping is the same as pandas:</p>
 <pre><code>df.groupby(['user','rating']).agg({'rating':'count'}) \
 .sort('count(rating)', ascending=False).show()
 </code></pre>
 <p>we have sorted the items descendingly. By default aggregated columns are named like &lsquo;agg_func(col_name)&rsquo; which we used as a new column name for sorting :</p>
-<p>img</p>
+<figure>
+<img src=/data-wrangling-pyspark/image9.png alt=Trulli style=width:100%;align:center>
+</figure>
 <p>Filtering the data is the same as pandas :</p>
 <pre><code>df[df['rating']&gt;3].show()
 
@@ -209,7 +228,9 @@ df = df.withColumn('Evaluation',F.when(df.rating &gt; 4 , 'excellent') \
             .when((df.rating&gt;=3)&amp;(df.rating &lt;=4) , 'good') \
             .otherwise('bad'))
 </code></pre>
-<p>img</p>
+<figure>
+<img src=/data-wrangling-pyspark/image10.png alt=Trulli style=width:100%;align:center>
+</figure>
 <p>Other than built in functions we can define user-defined-function called udf:</p>
 <pre><code>from pyspark.sql.types import DoubleType
 fn = F.udf(lambda x: x+1 , DoubleType())
@@ -217,7 +238,9 @@ df = df.withColumn('rating+1',fn(df.rating))
 df2 = df[['user','rating+1']]
 df2.show()
 </code></pre>
-<p>img</p>
+<figure>
+<img src=/data-wrangling-pyspark/image11.png alt=Trulli style=width:100%;align:center>
+</figure>
 <p>But we should be careful about the return types. The function must be deterministic otherwise spark return nulls for every row. Here we have imported and used DoubleType.</p>
 <p>To merge dataframes :</p>
 <pre><code>#pandas
@@ -227,7 +250,9 @@ df.merge(df2,left_on = 'rating',right_on='rating')
 df.join(df2,on='rating')
 df.join(df2,df.rating==df2.rating)
 </code></pre>
-<p>img</p>
+<figure>
+<img src=/data-wrangling-pyspark/image12.png alt=Trulli style=width:100%;align:center>
+</figure>
 <p>Sometimes you really need a pandas abilities that does not exist on pyspark then:<br>
 For example you need to plot a histogram, you can sample your data convert it to a pandas dataframe and then plot it in pandas:</p>
 <pre><code>#pyspark
@@ -240,7 +265,9 @@ df.sample(False,0.1).toPandas().plot()
 df2 = spark.sql('select * from foo')
 df2.show()
 </code></pre>
-<p>img</p>
+<figure>
+<img src=/data-wrangling-pyspark/image13.png alt=Trulli style=width:100%;align:center>
+</figure>
 <p>That’s great. You can switch back and forth between views and dataframes. All the SQL functions and abilities can be used here.</p>
 <h2 id=things-not-to-do>Things not To Do</h2>
 <p>Do not try to iterate all the rows</p>
