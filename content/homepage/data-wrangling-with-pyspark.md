@@ -19,16 +19,16 @@ Also there is two important qualities of Spark that you should know:
 
 - Objects are immutable
 
- - Changes create new object references
+    - Changes create new object references
 
- - old versions are unchanged
+    - old versions are unchanged
 
 
 - Lazy Evaluation
 
- - Compute does not happen until output is requested
+    - Compute does not happen until output is requested
 
- - So it can optimize the processing very well
+    - So it can optimize the processing very well
 
 Setting up the environment and PySpark
 I have used Anaconda to install Pyspark.
@@ -242,5 +242,6 @@ Thank you for reading!!
 ### References
 
 [1] [Data Wrangling with PySpark for Data Scientists Who Know Pandas - Andrew Ray](https://www.youtube.com/watch?v=XrpSRCwISdk&t=1488s)
+
 [2] [How to install PySpark locally and use it with Jupyter Notebook 2021](https://www.youtube.com/watch?v=MLXOy-OhWRY) 
 

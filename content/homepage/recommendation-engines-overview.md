@@ -16,7 +16,7 @@ description: A brief overview of Recommendation Engines
  The model gets the features of the items and map them to an lower dimensional embedding in a multi-dimensional space. Then train a model with a cost function to correct these representations using their previous user-item interactions. I will use Google’s example to explain this approach[1]. Take the apps in a Google Play Store. In the figure there are some feature matrix of apps. For the sake of simplicity features are binary {0,1}.
 
 <figure>
-  <img src="/image.png" alt="Trulli" style="width:100%; align:center">
+  <img src="/recommendation-engines/image.png" alt="Trulli" style="width:100%; align:center">
   <figcaption>Figure 1: Content Features Matrix of Play Store Apps [2]</figcaption>
 </figure>
 
@@ -27,7 +27,7 @@ The features are not just categories it can be all kind of information that is u
 In contrast to the Content Based Filtering, Collaborative Filtering is solely based on the previous user-item interactions. In this approach the goal is finding similarity between users to recommend items. The model assumes a generative relation which explains user-item interaction and tends to find this relation. Basically, the idea that lies behind the Collaborative Filtering is that past interactions is sufficient to detect similar users and predict choices of users. Collaborative filtering can recommend an item to a user based on interests of a similar user. Also the embeddings of users can be learned directly without relying on human-generated features. For example, lets consider Google’s example again:
 
 <figure>
-  <img src="/image-1.png" alt="Trulli" style="width:100%; align:center">
+  <img src="/recommendation-engines/image-1.png" alt="Trulli" style="width:100%; align:center">
   <figcaption>Figure 2: Collaborative Filtering Matrix [3]</figcaption>
 </figure>
 
@@ -37,7 +37,7 @@ To solve this problem, there is a popular linear algebra technique called matrix
 A = U x VT . Matrix factorization basically gives more compact representation than a whole matrix. By this Collaborative Filtering problem converts to a Matrix factorization problem and also by decomposing the matrix we can fill the empty entries by this decomposition. The objective becomes minimize the square of the errors over all pairs of interactions. It can be easily solved by gradient descent algorithm. The advantage of this approach is we do not need any side information about users or items because the embeddings learned automatically. The drawback of this approach is that we cannot handle the fresh users or items. This is called cold-start problem. Besides we cannot make use of information about items or users. Maybe this information can work better than the previous.
 
 <figure>
-  <img src="/image-2.png" alt="Trulli" style="width:100%; align:center">
+  <img src="/recommendation-engines/image-2.png" alt="Trulli" style="width:100%; align:center">
   <figcaption>Figure 3: Matrix Decomposition [4]</figcaption>
 </figure>
 
@@ -46,14 +46,14 @@ A = U x VT . Matrix factorization basically gives more compact representation th
 In 2010 Steffen Rendle [5] introduced a model called Factorization Model combining two of the approaches that is mentioned above. I will not go into detail about Hybrid FM Model but we can get the idea if we look at the equation:
 
 <figure>
-  <img src="/image-4.png" alt="Trulli" style="width:100%; align:center">
+  <img src="/recommendation-engines/image-4.png" alt="Trulli" style="width:100%; align:center">
   <figcaption>Figure 4: Hybrid Factorization Machine Equation[5]</figcaption>
 </figure>
 
 The equation separated in two parts: first is regression part which is included the user and item features to the model and the second part is straightforward matrix factorization part like in the Collaborative Filtering.
 
 <figure>
-  <img src="/image-5.png" alt="Trulli" style="width:100%; align:center">
+  <img src="/recommendation-engines/image-5.png" alt="Trulli" style="width:100%; align:center">
   <figcaption>Figure 5: Hybrid Factorization Machine Matrix[5]</figcaption>
 </figure>
 
