@@ -4,6 +4,9 @@ title: Data Wrangling with PySpark
 date: 2021-08-17
 description: Data Wrangling with PySpark
 ---
+<figure>
+  <img src="/data-wrangling-pyspark/image1.png" alt="Trulli" style="width:100%; align:center">
+</figure>
 
 It becomes very hard to work with pandas when the data is huge. Instead as a strong alternative PySpark comes along. In this tutorial I will introduce the PySpark and mirror our pandas abilities to PySpark. This post assumes the reader has familiarity with the pandas library.
 
@@ -46,7 +49,9 @@ from Anaconda Navigator or from a terminal you can create a virtual environment.
 
 you should see an output like this:
 
-img
+<figure>
+  <img src="/data-wrangling-pyspark/image2.png" alt="Trulli" style="width:100%; align:center">
+</figure>
 
 - You can start coding at Spark Shell but we will use jupyter notebook instead:
 to exit from SparkSession just write exit()
@@ -61,6 +66,7 @@ to exit from SparkSession just write exit()
 
 - Then we can test by opening a new notebook in our virtual environment and importing: 
 
+
     from pyspark import SparkContext
     sc = SparkContext()
     sc
@@ -68,7 +74,9 @@ to exit from SparkSession just write exit()
 SparkContext is a package for starting a spark session. We are creating a spark object by calling *SparkContext()* 
 The output will be like this:
 
-img
+<figure>
+  <img src="/data-wrangling-pyspark/image3.png" alt="Trulli" style="width:100%; align:center">
+</figure>
 
 You can click to Spark UI to see the spark interface and jobs that you run.
 
@@ -80,15 +88,21 @@ We create 1 billion range RDD. RDD is an immutable distributed collection of ele
 
     rdd.count()
 
-img
+<figure>
+  <img src="/data-wrangling-pyspark/image4.png" alt="Trulli" style="width:100%; align:center">
+</figure>
 
 Track the details of the job at Spark UI:
 
-img
+<figure>
+  <img src="/data-wrangling-pyspark/image5.png" alt="Trulli" style="width:100%; align:center">
+</figure>
 
 As it can be seen above our job is distributed among 12 different cores of our CPU. It lasts 8 secs to be succeeded. We can also see the tasks in detail for every core: 
 
-img
+<figure>
+  <img src="/data-wrangling-pyspark/image6.png" alt="Trulli" style="width:100%; align:center">
+</figure>
 
 Our set up is done. Now we can look at data wrangling with pyspark.
 
@@ -119,7 +133,9 @@ To display a dataframe :
 
 But the output will be quite ugly compared to the pandas : 
 
-img
+<figure>
+  <img src="/data-wrangling-pyspark/image7.png" alt="Trulli" style="width:100%; align:center">
+</figure>
 
 By default first 20 rows are displayed. To display n rows  df.show(n) can be used.
 
@@ -130,7 +146,9 @@ To drop a column:
     #pyspark
     df2.drop('rating').show()
 
-img
+<figure>
+  <img src="/data-wrangling-pyspark/image8.png" alt="Trulli" style="width:100%; align:center">
+</figure>
 
 Grouping is the same as pandas:
 
@@ -139,7 +157,9 @@ Grouping is the same as pandas:
 
 we have sorted the items descendingly. By default aggregated columns are named like 'agg_func(col_name)' which we used as a new column name for sorting : 
 
-img
+<figure>
+  <img src="/data-wrangling-pyspark/image9.png" alt="Trulli" style="width:100%; align:center">
+</figure>
 
 Filtering the data is the same as pandas : 
 
@@ -185,7 +205,9 @@ For row conditional statements :
                 .otherwise('bad'))
 
 
-img
+<figure>
+  <img src="/data-wrangling-pyspark/image10.png" alt="Trulli" style="width:100%; align:center">
+</figure>
 
 Other than built in functions we can define user-defined-function called udf: 
 
@@ -195,7 +217,9 @@ Other than built in functions we can define user-defined-function called udf:
     df2 = df[['user','rating+1']]
     df2.show()
 
-img
+<figure>
+  <img src="/data-wrangling-pyspark/image11.png" alt="Trulli" style="width:100%; align:center">
+</figure>
 
 But we should be careful about the return types. The function must be deterministic otherwise spark return nulls for every row. Here we have imported and used DoubleType.
 
@@ -208,7 +232,9 @@ To merge dataframes :
     df.join(df2,on='rating')
     df.join(df2,df.rating==df2.rating)
 
-img
+<figure>
+  <img src="/data-wrangling-pyspark/image12.png" alt="Trulli" style="width:100%; align:center">
+</figure>
 
 Sometimes you really need a pandas abilities that does not exist on pyspark then:  
 For example you need to plot a histogram, you can sample your data convert it to a pandas dataframe and then plot it in pandas:
@@ -224,7 +250,9 @@ Additionally, pyspark has SQL support which is not the case for pandas. That mea
     df2 = spark.sql('select * from foo')
     df2.show()
 
-img
+<figure>
+  <img src="/data-wrangling-pyspark/image13.png" alt="Trulli" style="width:100%; align:center">
+</figure>
 
 That’s great. You can switch back and forth between views and dataframes. All the SQL functions and abilities can be used here. 
 
