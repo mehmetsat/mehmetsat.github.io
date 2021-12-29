@@ -39,12 +39,12 @@ from Anaconda Navigator or from a terminal you can create a virtual environment.
 
 - Then open up a terminal from the virtual environment that we have created. Install Pyspark by conda:
 
-    conda install pyspark
-    
+    `conda install pyspark`
+
 
 - You can check if it is installed by : 
 
-    pyspark
+    `pyspark`
 
 
 you should see an output like this:
@@ -58,12 +58,12 @@ to exit from SparkSession just write exit()
 
 - To install jupyter notebook for our new virtual environment:
 
-    conda install jupyter
+    `conda install jupyter`
 
 
 - to open jupyter notebook:
 
-    jupyter notebook
+    `jupyter notebook`
 
 
 - Then we can test by opening a new notebook in our virtual environment and importing: 
