@@ -3,9 +3,17 @@
 <meta charset=utf-8>
 <meta http-equiv=x-ua-compatible content="IE=edge">
 <meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
-<title> - Mehmet Sat | Personal Blog</title>
-<meta name=description content>
-<meta name=author content>
+<title>AWS Personalize Tutorial - Mehmet Sat | Personal Blog</title>
+<meta name=description content="INTRODUCTION AWS Personalize dashboard summarizes all the steps for deploying the personalize model.
+  Creating Dataset Group and uploading datasets
+  SDK Installation(Optional) for live user event tracking
+  Creating solutions
+  Launching campaigns for getting recommendations for users
+  USEFUL LINKS   github.com/aws-samples/amazon-personalize-samples
+  AWS Personalize Documentation
+  DATASET PREPARATION There are 3 types of datasets:
+  User-item interaction dataset">
+<meta name=author content="mehmet sat">
 <link rel="preload stylesheet" as=style href=https://mehmetsat.github.io/app.min.css>
 <link rel="preload stylesheet" as=style href=https://mehmetsat.github.io/an-old-hope.min.css>
 <script defer src=https://mehmetsat.github.io/highlight.min.js onload=hljs.initHighlightingOnLoad()></script>
@@ -13,17 +21,20 @@
 <link rel=icon href=https://mehmetsat.github.io/favicon.ico>
 <link rel=apple-touch-icon href=https://mehmetsat.github.io/apple-touch-icon.png>
 <meta name=generator content="Hugo 0.91.2">
-<meta property="og:title" content>
-<meta property="og:description" content>
+<meta property="og:title" content="AWS Personalize Tutorial">
+<meta property="og:description" content="Tutorial for AWS Personalize">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://mehmetsat.github.io/homepage/aws-personalize-tutorial/"><meta property="article:section" content="homepage">
-<meta itemprop=name content>
-<meta itemprop=description content>
-<meta itemprop=wordCount content="0">
+<meta property="article:published_time" content="2021-12-17T00:00:00+00:00">
+<meta property="article:modified_time" content="2021-12-17T00:00:00+00:00">
+<meta itemprop=name content="AWS Personalize Tutorial">
+<meta itemprop=description content="Tutorial for AWS Personalize"><meta itemprop=datePublished content="2021-12-17T00:00:00+00:00">
+<meta itemprop=dateModified content="2021-12-17T00:00:00+00:00">
+<meta itemprop=wordCount content="1040">
 <meta itemprop=keywords content>
 <meta name=twitter:card content="summary">
-<meta name=twitter:title content>
-<meta name=twitter:description content>
+<meta name=twitter:title content="AWS Personalize Tutorial">
+<meta name=twitter:description content="Tutorial for AWS Personalize">
 </head>
 <body class=not-ready data-menu=true>
 <header class=header>
@@ -39,13 +50,340 @@
 <article class=post-single>
 <header class=post-title>
 <p>
-<time>Jan 1, 1</time>
+<time>Dec 17, 2021</time>
+<span>mehmet sat</span>
 </p>
-<h1></h1>
+<h1>AWS Personalize Tutorial</h1>
 </header>
-<section class=post-content></section>
+<section class=post-content><h2 id=introduction>INTRODUCTION</h2>
+<p>AWS Personalize dashboard summarizes all the steps for deploying the personalize model.</p>
+<ul>
+<li>
+<p>Creating Dataset Group and uploading datasets</p>
+</li>
+<li>
+<p>SDK Installation(Optional) for live user event tracking</p>
+</li>
+<li>
+<p>Creating solutions</p>
+</li>
+<li>
+<p>Launching campaigns for getting recommendations for users</p>
+</li>
+</ul>
+<h3 id=useful-links>USEFUL LINKS</h3>
+<ul>
+<li>
+<p><a href=https://github.com/aws-samples/amazon-personalize-samples>github.com/aws-samples/amazon-personalize-samples</a></p>
+</li>
+<li>
+<p><a href="https://docs.aws.amazon.com/personalize/?id=docs_gateway">AWS Personalize Documentation</a></p>
+</li>
+</ul>
+<h2 id=dataset-preparation>DATASET PREPARATION</h2>
+<p>There are 3 types of datasets:</p>
+<ul>
+<li>
+<p>User-item interaction dataset</p>
+</li>
+<li>
+<p>User Metadata dataset</p>
+</li>
+<li>
+<p>Item Metadata dataset</p>
+</li>
+</ul>
+<h3 id=user-item-interactions-dataset>User-Item Interactions Dataset</h3>
+<p>A schema for the dataset must be defined in advance. Schema is basically the structure of the data that will be uploaded. Example of interactions schema is below:</p>
+<pre><code>schema = {
+
+    &quot;type&quot;: &quot;record&quot;,
+    &quot;name&quot;: &quot;Interactions&quot;,
+    &quot;namespace&quot;: &quot;com.amazonaws.personalize.schema&quot;,
+    &quot;fields&quot;: [
+        {
+            &quot;name&quot;: &quot;USER_ID&quot;,
+            &quot;type&quot;: &quot;string&quot;
+        },
+        {
+            &quot;name&quot;: &quot;ITEM_ID&quot;,
+            &quot;type&quot;: &quot;string&quot;
+        },
+        {
+            &quot;name&quot;: &quot;TIMESTAMP&quot;,
+            &quot;type&quot;: &quot;long&quot;
+        },
+        { 
+            &quot;name&quot;: &quot;EVENT_TYPE&quot;,
+            &quot;type&quot;: &quot;string&quot;
+        },
+        {
+            &quot;name&quot;: &quot;EVENT_VALUE&quot;,
+            &quot;type&quot;: &quot;float&quot;
+        }
+    ],
+    &quot;version&quot;: &quot;1.0&quot;
+}
+
+create_schema_response = personalize.create_schema(
+    name = schema_name,
+    schema = json.dumps(schema)
+)
+
+schema_arn = create_schema_response['schemaArn']
+print(json.dumps(create_schema_response, indent=2))
+</code></pre>
+<p>Basically, there are 5 fields in the user-interaction dataset. The name of the columns should be the same in both schema and your csv file.</p>
+<ul>
+<li>ITEM_ID corresponds to ids of the items in interactions dataset;</li>
+<li>TIMESTAMP is the timestamp in seconds when event is occured based on unix epoch time;</li>
+<li>EVENT_TYPE is the interaction types like purchase or click.</li>
+<li>EVENT_VALUE is the value of the event. Values are better to be normalized. For example if you have 5 rating degree from 1 to 5; it can be normalized like 0.2, 0.4, 0.6, 0.8, and 1.</li>
+</ul>
+<p>After preparing the csv file it can be uploaded to s3 bucket to read from there. But the permission access should be given to allow the personalize model to access your bucket. It can be done by defining a bucket policy like :</p>
+<pre><code>s3 = boto3.client(&quot;s3&quot;, aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key
+
+policy = {
+    &quot;Version&quot;: &quot;2012-10-17&quot;,
+    &quot;Id&quot;: &quot;PersonalizeS3BucketAccessPolicy&quot;,
+    &quot;Statement&quot;: [
+        {
+            &quot;id&quot;: &quot;PersonalizeS3BucketAccessPolicy&quot;,
+            &quot;Effect&quot;: &quot;Allow&quot;,
+            &quot;Principal&quot;: {
+                &quot;Service&quot;: &quot;personalize.amazonaws.com&quot;
+            },
+            &quot;Action&quot;: [
+                &quot;s3:GetObject&quot;,
+                &quot;s3:ListBucket&quot;
+            ],
+            &quot;Resource&quot;: [
+                &quot;arn:aws:s3:::{}&quot;.format(bucket),
+                &quot;arn:aws:s3:::{}/*&quot;.format(bucket)
+            ]
+        }
+    ]
+}
+
+s3.put_bucket_policy(Bucket=bucket, Policy=json.dumps(policy))
+</code></pre>
+<p>Now our model can access to the bucket that the data is stored.</p>
+<p>Then we can upload the data to the model first by creating dataset group. A dataset group contains 3 different datasets that we explained above.</p>
+<p>To create a dataset group:</p>
+<pre><code>dataset_group_name = dataset_group_name
+
+create_dataset_group_response = personalize.create_dataset_group(
+    name = dataset_group_name
+)
+
+dataset_group_arn = create_dataset_group_response['datasetGroupArn']
+print(json.dumps(create_dataset_group_response, indent=2))
+</code></pre>
+<p>To create a dataset inside this dataset group:</p>
+<pre><code>dataset_type = &quot;INTERACTIONS&quot;
+create_dataset_response = personalize.create_dataset(
+    datasetType = dataset_type,
+    datasetGroupArn = dataset_group_arn,
+    schemaArn = schema_arn,
+    name = &quot;test-dataset&quot;
+)
+
+interactions_dataset_arn = create_dataset_response['datasetArn']
+print(json.dumps(create_dataset_response, indent=2))
+</code></pre>
+<p>The dataset type can be ‘INTERACTIONS', ’ITEMS' or ‘USERS’. Interactions dataset is required dataset others are optional.</p>
+<p>Then you can create a dataset import job to upload the data to your model :</p>
+<pre><code>create_dataset_import_job_response = personalize.create_dataset_import_job(
+    jobName = dataset-import-job-name,
+    datasetArn = interactions_dataset_arn,
+    dataSource = {
+        &quot;dataLocation&quot;: &quot;s3://{}/{}&quot;.format(bucket, bucket_location)
+    },
+    roleArn = role_arn
+)
+
+dataset_import_job_arn = create_dataset_import_job_response['datasetImportJobArn']
+print(json.dumps(create_dataset_import_job_response, indent=2))
+</code></pre>
+<p>You can check the status by this code piece:</p>
+<pre><code>status = None
+max_time = time.time() + 3*60*60 # 3 hours
+while time.time() &lt; max_time:
+    describe_dataset_import_job_response = personalize.describe_dataset_import_job(
+        datasetImportJobArn = dataset_import_job_arn
+    )
+    
+    dataset_import_job = describe_dataset_import_job_response[&quot;datasetImportJob&quot;]
+    if &quot;latestDatasetImportJobRun&quot; not in dataset_import_job:
+        status = dataset_import_job[&quot;status&quot;]
+        print(&quot;DatasetImportJob: {}&quot;.format(status))
+    else:
+        status = dataset_import_job[&quot;latestDatasetImportJobRun&quot;][&quot;status&quot;]
+        print(&quot;LatestDatasetImportJobRun: {}&quot;.format(status))
+    
+    if status == &quot;ACTIVE&quot; or status == &quot;CREATE FAILED&quot;:
+        break
+        
+    time.sleep(60)
+</code></pre>
+<p>If the status is ‘ACTIVE’, the dataset is imported to the model succesfully.</p>
+<p>For other dataset types same procedure should be followed. First creating the schema based on your data, then creating a dataset and lastly creating an import job to upload the data. I will add the example schemas for other datasets.</p>
+<h3 id=items-dataset>Items Dataset</h3>
+<p>The schema should be like this:</p>
+<pre><code>metadata_schema = {
+    &quot;type&quot;: &quot;record&quot;,
+    &quot;name&quot;: &quot;Items&quot;,
+    &quot;namespace&quot;: &quot;com.amazonaws.personalize.schema&quot;,
+    &quot;fields&quot;: [
+        {
+            &quot;name&quot;: &quot;ITEM_ID&quot;,
+            &quot;type&quot;: &quot;string&quot;
+        },
+
+        {
+            &quot;name&quot;: &quot;CUISINES&quot;,
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;categorical&quot;: True
+        }
+        
+    ],
+    &quot;version&quot;: &quot;1.0&quot;
+}
+
+create_metadata_schema_response = personalize.create_schema(
+    name = metadata_schema_name,
+    schema = json.dumps(metadata_schema)
+)
+
+metadata_schema_arn = create_metadata_schema_response['schemaArn']
+print(json.dumps(create_metadata_schema_response, indent=2))
+</code></pre>
+<p>You can add many fields as needed for the items dataset. The required field is ITEM_ID here. The same procedure can be followed to upload the dataset.</p>
+<h3 id=users-dataset>Users Dataset</h3>
+<p>The schema should be like this:</p>
+<pre><code>usermetadata_schema = {
+    &quot;type&quot;: &quot;record&quot;,
+    &quot;name&quot;: &quot;Users&quot;,
+    &quot;namespace&quot;: &quot;com.amazonaws.personalize.schema&quot;,
+    &quot;fields&quot;: [
+        {
+            &quot;name&quot;: &quot;USER_ID&quot;,
+            &quot;type&quot;: &quot;string&quot;
+        },
+
+        {
+            &quot;name&quot;: &quot;RFM&quot;,
+            &quot;type&quot;: &quot;long&quot;,
+            &quot;categorical&quot;: True
+        }
+        
+    ],
+    &quot;version&quot;: &quot;1.0&quot;
+}
+
+create_usermetadata_schema_response = personalize.create_schema(
+    name = usermetadata_schema_name,
+    schema = json.dumps(usermetadata_schema)
+)
+
+usermetadata_schema_arn = create_usermetadata_schema_response['schemaArn']
+print(json.dumps(create_metadata_schema_response, indent=2))
+</code></pre>
+<p>You can add many fields as needed for the users dataset. The required field is USER_ID here. The same procedure can be followed to upload the dataset.</p>
+<h2 id=training>TRAINING</h2>
+<p>Now we are ready for training the model. AWS create a solution for the recommendation by choosing one of the recipes. The recipes are listed by:</p>
+<pre><code>recipe_list = personalize.list_recipes()
+for recipe in recipe_list['recipes']:
+    print(recipe['recipeArn'])
+
+
+#output
+arn:aws:personalize:::recipe/aws-hrnn
+arn:aws:personalize:::recipe/aws-hrnn-coldstart
+arn:aws:personalize:::recipe/aws-hrnn-metadata
+arn:aws:personalize:::recipe/aws-personalized-ranking
+arn:aws:personalize:::recipe/aws-popularity-count
+arn:aws:personalize:::recipe/aws-sims
+arn:aws:personalize:::recipe/aws-user-personalization
+</code></pre>
+<p>The recipes vary by the case. You can check the documentation that is linked at the beginning of the text.</p>
+<p>How to create a solution:</p>
+<p>First you should define the solution and recipe :</p>
+<pre><code>create_solution_response = personalize.create_solution(
+    name = solution_name,
+    datasetGroupArn = dataset_group_arn,
+    recipeArn = recipe_arn
+)
+
+solution_arn = create_solution_response['solutionArn']
+print(json.dumps(create_solution_response, indent=2))
+
+create_solution_version_response = personalize.create_solution_version(
+    solutionArn = solution_arn
+)
+
+solution_version_arn = create_solution_version_response['solutionVersionArn']
+print(json.dumps(create_solution_version_response, indent=2))
+</code></pre>
+<p>Then your training has started, now you can check the status by :</p>
+<pre><code>status = None
+max_time = time.time() + 3*60*60 # 3 hours
+while time.time() &lt; max_time:
+    describe_solution_version_response = personalize.describe_solution_version(
+        solutionVersionArn = solution_version_arn
+    )
+    status = describe_solution_version_response[&quot;solutionVersion&quot;][&quot;status&quot;]
+    print(&quot;SolutionVersion: {}&quot;.format(status))
+    
+    if status == &quot;ACTIVE&quot; or status == &quot;CREATE FAILED&quot;:
+        break
+        
+    time.sleep(60)
+</code></pre>
+<p>After &lsquo;ACTIVE&rsquo; status is observed, you can check the results :</p>
+<pre><code>get_solution_metrics_response = personalize.get_solution_metrics(
+    solutionVersionArn = solution_version_arn
+)
+
+print(json.dumps(get_solution_metrics_response, indent=2))
+</code></pre>
+<p>To get the recommendations from the model, you should create a &lsquo;campaign&rsquo; for this solution.</p>
+<pre><code>create_campaign_response = personalize.create_campaign(
+    name = campaign_name,
+    solutionVersionArn = solution_version_arn,
+    minProvisionedTPS = 2,    
+)
+
+campaign_arn = create_campaign_response['campaignArn']
+print(json.dumps(create_campaign_response, indent=2))
+</code></pre>
+<p>At the last and best part, we can try our model and get recommendations for the users :</p>
+<pre><code>get_recommendations_response = personalize_runtime.get_recommendations(
+    campaignArn = campaign_arn,
+    userId = str(user_id),
+)
+# Update DF rendering
+pd.set_option('display.max_rows', 30)
+
+print(&quot;Recommendations for user: &quot;, user_id)
+
+item_list = get_recommendations_response['itemList']
+print(item_list)
+recommendation_list = []
+
+for item in item_list:
+    title = get_restaurant(item['itemId'])
+    recommendation_list.append(title)
+    
+recommendations_df = pd.DataFrame(recommendation_list, columns = ['OriginalRecs'])
+recommendations_df
+</code></pre>
+<h2 id=conclusion>Conclusion</h2>
+<p>In this post I have explain how to use AWS Personalize model to create a recommendation engine.
+Thank you for reading..</p>
+</section>
 <nav class=post-nav>
-<a class=prev href=https://mehmetsat.github.io/homepage/about/><span>←</span><span>About me</span></a>
+<a class=next href=https://mehmetsat.github.io/homepage/data-wrangling-with-pyspark/><span>Data Wrangling with PySpark</span><span>→</span></a>
 </nav>
 </article>
 </main>
