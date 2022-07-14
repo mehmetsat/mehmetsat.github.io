@@ -29,13 +29,13 @@ Maybe you are asking what is the objective there? If we have the high-resolution
 The starting point of Guided Super Resolution task is definitely bilateral filter. Bilateral Filter is a non-linear edge preserving filter that is widely used in image processing for noise reduction. The simple idea that relies behind this filter is the necessary information for a pixel value can be modeled as weighted average of the local neighborhood information.
 
 <figure>
-  <img src="/guided-super-resolution/guided-super-resolution_2.png" alt="Trulli" style="width:100%; align:center">
+  <img src="/guided-super-resolution/guided-super-resolution_2.png" alt="Trulli" style="align:center">
 </figure>
 
 Bilateral filter is a conventional technique that gets a pixel and returns the weighted average of local neighborhood pixels. It is used for edge preserving, noise reduction and also for super-resolution. Low-resolution image upsampled to a higher one and than this image goes through Bilateral Filter to get smoother. Actually, Bilateral Filter is generalized version of the Guided Filters.
 
 <figure>
-  <img src="/guided-super-resolution/guided-super-resolution_3.png" alt="Trulli" style="width:100%; align:center">
+  <img src="/guided-super-resolution/guided-super-resolution_3.png" alt="Trulli" style="align:center">
 </figure>
 
 Guided Filter is a framework that gets two images -one as a guide and the other one is the source- and returns the combination of the weighted averages for that pixel in both source and the guide image. It is used also for denoising and colorisation.
