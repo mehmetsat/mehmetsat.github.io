@@ -1,3 +1,11 @@
+---
+author: mehmet sat
+title: Guided Super Resolution as Pixel-to-Pixel Transformation
+date: 2022-07-08
+description: Guided Super Resolution as Pixel-to-Pixel Transformation Paper Review
+---
+
+
 # Guided Super Resolution as Pixel-to-Pixel Transformation Paper Review
 
 In this blog post I will try to explain what I have understand from the paper Guided Super Resolution as Pixel-to-Pixel Transformation which I hope it helps for who is interested. As a matter of fact, all the information is gathered from the paper itself otherwise it will be indicated.
