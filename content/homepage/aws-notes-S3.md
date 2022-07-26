@@ -1,7 +1,7 @@
 +++
 title = "Amazon S3"
 description = "AWS Notes for the Certification Exam III"
-date = "2022-07-26"
+date = "2022-07-28"
 author = "mehmet sat"
 +++
 
