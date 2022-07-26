@@ -92,15 +92,12 @@ https://**{bucket-name}**.s3.**{Region}**.amazonaws.com/**{key-name}
 - S3 by default can handle 3500 PUT/COPY/POST/DELETE and 5000 GET/HEAD per second, per **prefix**
 - What is **Prefix?**
     
-    <aside style="border:solid; border-radius:10px; margin:15px; padding:10px">
+    <aside style="border:solid; border-radius:10px; margin:0px; padding:10px">
     💡 Prefix is basically the path of the object 
-    For example:
-    
-   
-    
-    ```jsx
-    mybucketname/folder1/subfolder1/myfile.jpg -> /folder1/subfolder1
-    ```
+
+         mybucketname/folder1/subfolder1/myfile.jpg -> /folder1/subfolder1 
+
+
      </aside>
     
 - You can get better performance by increasing the number of prefixes
