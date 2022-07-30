@@ -106,7 +106,7 @@ author = "mehmet sat"
 ## DynamoDB Streams
 
 <figure>
-  <img src="aws-databases/DynamoDB_streams.png" alt="Trulli" style="width:100%; align:center">
+  <img src="/aws-databases/DynamoDB_streams.png" alt="Trulli" style="width:100%; align:center">
 </figure>
 
 - It stores the first-in-first-out changes to your data with streams of records.
