@@ -1,5 +1,5 @@
 +++
-title = "AWS Fundamentals"
+title = "AWS Databases"
 description = "AWS Notes for the Certification Exam I"
 date = "2022-07-30"
 author = "mehmet sat"
