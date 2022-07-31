@@ -54,8 +54,10 @@ author = "mehmet sat"
 - Eventually consistent reads are enabled by default
 - You can also enable strongly consistent reads optionally
 
-<aside>
-💡 Eventually consistent reads → Consistency usually reach to all copies of data within a second. Repeating read after a short time should return the updated data and this gives you the best read performance
+<aside  style="border:solid; border-radius:10px; margin:15px; padding:10px">
+💡 
+
+**Eventually consistent reads** → Consistency usually reach to all copies of data within a second. Repeating read after a short time should return the updated data and this gives you the best read performance
 
 **Strongly consistent reads →** It returns a result reflects all writes that received a successful response prior to the read
 
