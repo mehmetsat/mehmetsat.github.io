@@ -5,7 +5,6 @@ date = "2022-07-30"
 author = "mehmet sat"
 +++
 
-# AWS Databases
 
 ## RDS(Relational Database Service)
 

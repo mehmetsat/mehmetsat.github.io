@@ -5,7 +5,7 @@ date = "2022-07-28"
 author = "mehmet sat"
 +++
 
-# Amazon EBS
+
 
 - Highly available and scalable **persistent** storage volumes that you can attach to your EC2 instances
 

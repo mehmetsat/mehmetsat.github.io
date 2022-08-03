@@ -5,7 +5,6 @@ date = "2022-08-03"
 author = "mehmet sat"
 +++
 
-# Virtual Private Clouds (VPC)
 
 - You can think of VPCs as a logical data center in AWS
 - It consists of :

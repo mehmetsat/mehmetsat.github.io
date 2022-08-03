@@ -5,7 +5,6 @@ date = "2022-07-24"
 author = "mehmet sat"
 +++
 
-# AWS Fundamentals
 
 - A **Region** is a physical location in the world that consists of two or more **Availability Zones(AZs)**
 - An **AZ** is one or more discrete data centers — each with redundant power, networking, and connectivity — housed in separate facilities
