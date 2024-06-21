@@ -13,3 +13,8 @@ theme = 'paper'
     name = "About"
     url = "/about/"
     weight = 10
+[mediaTypes]
+[mediaTypes."text/markdown"]
+  suffixes = ["md", "markdown", "mmark"]
+[params]
+  math = true 
