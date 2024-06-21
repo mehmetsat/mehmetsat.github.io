@@ -1,7 +1,7 @@
 +++
 title = "Virtual Private Clouds(VPC)"
 description = "AWS Notes for the Certification Exam I"
-date = "2022-08-03"
+date = "2020-08-03"
 author = "mehmet sat"
 +++
 

@@ -1,7 +1,7 @@
 ---
 author: mehmet sat
 title: AWS Personalize Tutorial
-date: 2021-12-17
+date: 2020-12-17
 description: Tutorial for AWS Personalize 
 ---
 
