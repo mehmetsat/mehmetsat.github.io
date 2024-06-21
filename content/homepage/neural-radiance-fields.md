@@ -2,7 +2,7 @@
 author: mehmet sat
 title: Recommendation Engines Overview
 date: 2024-06-21
-description: Neural Radiance Fields: A Technical Deep Dive into 3D Scene Representation
+description: "Neural Radiance Fields: A Technical Deep Dive into 3D Scene Representation"
 ---
 
 ## Neural Radiance Fields: A Technical Deep Dive into 3D Scene 
