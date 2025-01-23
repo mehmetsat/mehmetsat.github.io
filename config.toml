@@ -18,3 +18,4 @@ theme = 'paper'
   suffixes = ["md", "markdown", "mmark"]
 [params]
   math = true 
+  disqusShortname = "mehmetsat" 
